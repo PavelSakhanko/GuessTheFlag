@@ -25,14 +25,19 @@ struct ContentView: View {
                         .foregroundColor(.white)
                     Text("\(countries[correctAnswer])")
                         .foregroundColor(.white)
+                        .font(.largeTitle)
+                        .fontWeight(.black)
                 }
                 
                 ForEach(0..<3) { number in
                     Button(action: {
                         flagTapped(number)
                     }, label: {
-                       Image("\(countries[number])")
-                        .renderingMode(.original)
+                        Image("\(countries[number])")
+                            .frame(height: 106)
+                            .clipShape(Capsule())
+                            .overlay(Capsule().stroke(Color.white, lineWidth: 1))
+                            .shadow(color: .white, radius: 2)
                     })
                 }
                 
