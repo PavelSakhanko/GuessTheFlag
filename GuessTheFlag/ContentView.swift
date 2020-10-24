@@ -9,12 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     
-    private let countries =  ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"]
-    private let correctAnswer = Int.random(in: 0...2)
+    @State private var showingScore = false
+    @State private var scoreTitle = ""
+    @State private var countries =  ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
+    @State private var correctAnswer = Int.random(in: 0...2)
     
     var body: some View {
         ZStack {
-            Color.blue.edgesIgnoringSafeArea(.all)
+            LinearGradient(gradient: Gradient(colors: [.blue, .gray]) , startPoint: .top, endPoint: .bottom)
+            .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 25) {
                 VStack {
@@ -26,7 +29,7 @@ struct ContentView: View {
                 
                 ForEach(0..<3) { number in
                     Button(action: {
-                        //
+                        flagTapped(number)
                     }, label: {
                        Image("\(countries[number])")
                         .renderingMode(.original)
@@ -37,9 +40,27 @@ struct ContentView: View {
 
             Spacer()
         }
-        
-        Text("Hello, world!")
-            .padding()
+        .alert(isPresented: $showingScore, content: {
+            Alert(title: Text("\(scoreTitle)"),
+                  message: Text("Your score is ???"),
+                  dismissButton: .default(Text("Continue")) {
+                      askQuestion()
+                  }
+        )}
+    )}
+
+    func flagTapped(_ number: Int) {
+        showingScore = true
+        guard number == correctAnswer else {
+            scoreTitle = "Wrong"
+            return
+        }
+        scoreTitle = "Correct"
+    }
+    
+    func askQuestion() {
+        countries.shuffle()
+        correctAnswer = Int.random(in: 0...2)
     }
 }
 
