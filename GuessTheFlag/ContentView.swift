@@ -91,9 +91,9 @@ struct ContentView: View {
         case ScoreTitle.correct.rawValue:
             userScore += 1
         case ScoreTitle.wrong.rawValue:
-            while userScore > 0 {
+            if userScore > 0 {
                 userScore -= 1
-            }
+            } 
         default:
             break
         }
