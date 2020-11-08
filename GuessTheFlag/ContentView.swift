@@ -44,11 +44,7 @@ struct ContentView: View {
                     Button(action: {
                         flagTapped(number)
                     }, label: {
-                        Image("\(countries[number])")
-                            .frame(height: 106)
-                            .clipShape(Capsule())
-                            .overlay(Capsule().stroke(Color.white, lineWidth: 1))
-                            .shadow(color: .white, radius: 2)
+                        FlagImage(flagNumber: number, countries: countries)
                     })
                 }
                 
